@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ImageStream
+metadata:
+  name: alpine
+  labels:
+    app: hello-ping-docker
+spec:
+  tags:
+    - name: latest
+      annotations:
+        openshift.io/imported-from: 'alpine:latest'
+      from:
+        kind: DockerImage
+        name: 'alpine:latest'
+      generation: 2
+      importPolicy: {}
+      referencePolicy:
+        type: Source

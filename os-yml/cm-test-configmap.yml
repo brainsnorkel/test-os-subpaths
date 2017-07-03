@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-config-map
+data:
+  test-key: |
+    the quick
+    brown fox
+    jumps over
+    the lazy dog

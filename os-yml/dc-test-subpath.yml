@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  name: hello-ping-docker
+  labels:
+    app: hello-ping-docker
+spec:
+  strategy:
+    type: Rolling
+    rollingParams:
+      updatePeriodSeconds: 1
+      intervalSeconds: 1
+      timeoutSeconds: 600
+      maxUnavailable: 25%
+      maxSurge: 25%
+    resources: {}
+    activeDeadlineSeconds: 21600
+  triggers:
+    - type: ConfigChange
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - hello-ping-docker
+        from:
+          kind: ImageStreamTag
+          name: 'hello-ping-docker:latest'
+  replicas: 1
+  test: false
+  selector:
+    app: hello-ping-docker
+    deploymentconfig: hello-ping-docker
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: hello-ping-docker
+        deploymentconfig: hello-ping-docker
+    spec:
+      containers:
+        - name: hello-ping-docker
+          labels:
+            name: hello-ping-docker
+          image: "hello-ping-docker"
+          resources: {}
+          volumeMounts:
+            - name: volume-configmap
+              mountPath: /opt/test-text.txt
+              subPath: test-key
+          terminationMessagePath: /dev/termination-log
+          imagePullPolicy: Always
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      volumes:
+        - name: volume-configmap
+          configMap:
+            name: test-config-map
+            items:
+              - key: test-key
+                path: test-key
+            defaultMode: 420

@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: BuildConfig
+metadata:
+  name: hello-ping-docker
+  labels:
+    app: hello-ping-docker
+spec:
+  triggers:
+    - type: GitHub
+      github:
+        secret: HVPNLCs81EfEny-nzulR
+    - type: Generic
+      generic:
+        secret: C0aMjGFUf9NPPIiQKQcI
+    - type: ConfigChange
+    - type: ImageChange
+      imageChange:
+        lastTriggeredImageID: >-
+          alpine@sha256:1072e499f3f655a032e88542330cf75b02e7bdf673278f701d7ba61629ee3ebe
+  runPolicy: Serial
+  source:
+    type: Git
+    git:
+      uri: 'https://github.com/brainsnorkel/hello-ping-docker'
+  strategy:
+    type: Docker
+    dockerStrategy:
+      from:
+        kind: ImageStreamTag
+        name: 'alpine:latest'
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'hello-ping-docker:latest'
+  resources: {}
+  postCommit: {}
+  nodeSelector: null
