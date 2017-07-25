@@ -47,6 +47,9 @@ spec:
             - name: volume-configmap
               mountPath: /opt/test-text.txt
               subPath: test-key
+            - name: volume-sekrit
+              mountPath: /opt/test-secret.txt
+              subpath: somexml
           terminationMessagePath: /dev/termination-log
           imagePullPolicy: Always
       restartPolicy: Always
@@ -61,3 +64,6 @@ spec:
               - key: test-key
                 path: test-key
             defaultMode: 420
+        - name: volume-sekrit
+          secret:
+            secretName: sekrits
