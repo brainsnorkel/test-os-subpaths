@@ -13,14 +13,14 @@ All designed to sanity test an OpenShift server.
 
   `oc new-project test`
 
-2. Run `./oc-create-all-yml.sh`
+2. Run `./oc-create-all.sh`
 
-3. Wait for the pod to deploy, then run: `./test-subpath.sh`
+3. Wait for the pod to deploy, then run: `./test-mounts+envs.sh`
 
 Output should be:
 
 ```shell
-$ ./test-subpath.sh 
+$ ./testest-mounts+envs.sh 
 the quick
 brown fox
 jumps over
@@ -30,6 +30,6 @@ is
 a
 secret
 file
-SEKRIT_ENV='verySecretPassword
+SEKRIT_ENV='verySecretPassword'
 ```
 
