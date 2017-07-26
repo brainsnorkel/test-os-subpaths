@@ -51,6 +51,12 @@ spec:
               mountPath: /opt/test-secret.txt
               subPath: somexml
           terminationMessagePath: /dev/termination-log
+          env:
+            - name: SEKRIT_ENV
+              valueFrom:
+                secretKeyRef:
+                  name: sekrits
+                  key: MYSQL_ROOT_PASSWORD
           imagePullPolicy: Always
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
@@ -67,3 +73,4 @@ spec:
         - name: volume-sekrit
           secret:
             secretName: sekrits
+
